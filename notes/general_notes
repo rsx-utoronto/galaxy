@@ -1,0 +1,13 @@
+------------------------------------------------------
+Using GitHub on Windows (with the app) by Jeff:
+1) Download and install windows github client: https://windows.github.com/
+2) Follow the setting up git tutorial: https://help.github.com/articles/set-up-git/
+3) Clone a repository to your computer, you can use the Windows app you just installed: click the plus sign at the top left then choose clone then select the repository to clone.
+4) Make sure that everything is synced, you can click the sync button at the top right to make sure.
+5) Open the repository in windows explorer either manually or using the app.
+6) Edit documents.
+7) After editing, in the windows app it should show uncommitted changes. You can now add a summary and description and commit those changes.
+8) After committing it will show that you have unsynced changes. You can sync at your convenience by hitting the sync button.
+9) That's pretty much it.
+10) You could also just use the shell, which the app will open for you.
+-------------------------------------------------------
