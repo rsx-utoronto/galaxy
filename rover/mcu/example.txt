@@ -1,0 +1,6 @@
+input 2 4 
+output 1 5 6
+servo 9
+
+RED_LED 6
+ELBOW 9
