@@ -1,5 +1,3 @@
-#working
-
 import serial
 import socket
 import time
