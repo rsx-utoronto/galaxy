@@ -1,0 +1,5 @@
+### RASPBERRY PI ###
+
+- To set up static wireless IP address, followed this post: https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=31003
+- To set up a command to boot at start (in this case, vncserver), followed this: https://learn.adafruit.com/adafruit-raspberry-pi-lesson-7-remote-control-with-vnc/running-vncserver-at-startup (maybe this works to set other things to startup from the beginning too?)
+
