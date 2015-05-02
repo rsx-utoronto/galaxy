@@ -1,8 +1,13 @@
+//range: 31~159
 #include <Servo.h>
 Servo myservo1;
 Servo myservo2;
-int joystickSpeed = 0;//= Serial.read(whatever come from the joystick speed)
+int speed1 = 31;
+int speed2 = 90;
+int speed3 = 159;
+int joystickSpeed = 0;//serial.read(whatever come from the joystick speed)
 //probably need to use split function to split the array
+float pseudoSpeed = 0; 
 
 void setup () {
   myservo1.attach(6); // Use PWM pin 14 to control Sabertooth.
@@ -10,15 +15,26 @@ void setup () {
   Serial.begin(9600);
 }
 
-void loop() {  
-
+void loop(){
+  sortSpeed(pseudoSpeed);
 }
 
-void sortSpeed(int joystickSpeed){
-  int sortedSpeed = 90+joystickSpeed*89;
-  forward(sortedSpeed); 
+int custom_map(float num){
+  int adjustedSpeed;
+  
+  if (num>=0){
+    adjustedSpeed = 69*num+90; 
+  }
+  else if (num<=0){
+    adjustedSpeed = 59*num+90;
+  }
+  return adjustedSpeed;
 }
 
-void forward(int speed){
-  myservo.write(speed);
+void sortSpeed(float joystickSpeed){
+  forward(custom_map(joystickSpeed)); 
+}
+
+void forward(int speed1){
+  myservo1.write(speed1);
 }
