@@ -1,0 +1,7 @@
+############################################################
+CNC Mill:
+
+- Installed Mach3 on lab windows laptop
+- Installed GRBL on Arduino Nano (hex file didn't work, so used source, pasted the grbl folder in arduino program's libraries folder, and opened grblUpload in the examples section of the IDE, flashed without problem)
+- 
+
