@@ -1,12 +1,9 @@
-//range: 31~159
+//range: 31-159
 #include <Servo.h>
 Servo myservo1;
 Servo myservo2;
-int speed1 = 31;
-int speed2 = 90;
-int speed3 = 159;
-int joystickSpeed = 0;//serial.read(whatever come from the joystick speed)
-//probably need to use split function to split the array
+
+int joystickSpeed = 0;//serial.read (whatever come from the joystick speed)
 float pseudoSpeed = 0; 
 
 void setup () {
