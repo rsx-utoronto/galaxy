@@ -4,18 +4,17 @@ import network
 import sys
 
 def heard(phrase):
-  print "them:" + phrase
+  print phrase
 
-print "Chat Program"
+print "Galaxy Communication 1.0"
 
-if (len(sys.argv) >= 2):
-  network.call(sys.argv[1], whenHearCall=heard)
-else:  
-  network.wait(whenHearCall=heard)
+network.wait(whenHearCall=heard)
+ 
+while True:
 
-print "Chat away!"  
-while network.isConnected():
-  phrase = raw_input()
-  print "me:" + phrase
-  network.say(phrase)
+  if network.isConnected():
+    phrase = raw_input()
+    network.say(phrase)
   
+  else:
+    network.wait(whenHearCall=heard)
