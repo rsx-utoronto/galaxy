@@ -5,7 +5,7 @@
 import socket
 
 s = socket.socket()
-host = "100.64.246.12"
+host = "192.168.1.114"
 port = 8000
 
 s.connect((host, port))
