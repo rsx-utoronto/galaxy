@@ -1,18 +1,15 @@
 #to run, 'sudo python' then 'import gamepad' (this file), then 'gamepad.test()'
 #to install pygame: apt-get install python-pygame
 
-import pygame, time, serial, csv, motor_func, math, socket
+import pygame, time, serial, csv, motor_func, math, socket, telnetlib
 
 pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 
-s = socket.socket()
-host = "192.168.1.114"
-port = 8000
-s.connect((host, port))
+tn = telnetlib.Telnet("192.168.1.114","51234")
 
-output_delay = 0.1
+output_delay = 0.25
 
 def get():
     out = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -36,11 +33,11 @@ def get():
     return out
 
 def test():
-	while True:
-		time.sleep(float(output_delay))
-		joystick_info = get()
-		print (joystick_info)
-        s.send('To infinity.')
+    while True:
+        time.sleep(float(output_delay))
+        joystick_info = get()
+        tn.write(str(joystick_info).replace(" ","").replace("[","").replace("]",""))
+        print str(joystick_info)
 
 if __name__ == '__main__':
     test()
