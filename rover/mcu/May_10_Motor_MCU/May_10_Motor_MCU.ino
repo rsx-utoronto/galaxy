@@ -27,8 +27,8 @@ void loop(){
   //if(Serial2.available() > 0){
     data_index = 0;
     start = 0;
-    //String string = Serial.readStringUntil('\n');
-    String string = "0.5,1.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0";
+    String string = Serial2.readStringUntil('\n');
+    //String string = "0.5,1.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0"; Test String
     
     Serial.println(string);
 
