@@ -8,15 +8,25 @@ int data_index = 0; //data_index keeps track of which index to place float in fl
 float verticalSpeed = 0; //forward/backward, joystick element 1
 float horizontalSpeed = 0; //right/left; joystick element 0
 float rotationSpeed = 0; //rotate right/left about centre axis; joystick element 3
+
+float armspeed = 1;
+float clawspeed = 1;
+float sidespeed = 1;
+
 float dampingFactor = 0;
 Servo myservo1;  //Left wheel
 Servo myservo2;  //Right wheel
+Servo myservo3; //claw
+Servo myservo4; //arm
+Servo myservo5; //slider
 
 void setup(){
   //PWM control wheels
   myservo1.attach(6);
   myservo2.attach(7);
-  
+  myservo3.attach(8);
+  myservo4.attach(9);
+  myservo5.attach(10);
   Serial.begin(9600);
   Serial2.begin(9600);
   delay(500);
@@ -57,7 +67,7 @@ void loop(){
   Serial.println(rotationSpeed);
   //}
   moveRover(verticalSpeed, horizontalSpeed, rotationSpeed);
-  //moveRover(1,0,0);
+  moveArm();
 }
 
 //Takes in a number from -1 to 1 and converts to 31 to 159
@@ -73,25 +83,45 @@ int custom_map(float num){
   return adjustedSpeed;
 }
 
-void wheel_rotate(Servo servo, float joystickSpeed){
+void actuate_motor(Servo servo, float joystickSpeed){
   servo.write(custom_map(joystickSpeed));
 }
 
 void moveRover(float verticalSpeed, float horizontalSpeed, float rotationSpeed){
   if (horizontalSpeed == 0 && rotationSpeed == 0){  //Move Forward/Backward
-    wheel_rotate(myservo1, verticalSpeed);
-    wheel_rotate(myservo2, verticalSpeed);
+    actuate_motor(myservo1, verticalSpeed);
+    actuate_motor(myservo2, verticalSpeed);
   }
   else if (horizontalSpeed > 0  && verticalSpeed != 0){  //Right Turn
-    wheel_rotate(myservo1, verticalSpeed);
-    wheel_rotate(myservo2, verticalSpeed*(1-abs(horizontalSpeed))); //Right wheel ranges from 0 to verticalSpeed (determines angle of turn)
+    actuate_motor(myservo1, verticalSpeed);
+    actuate_motor(myservo2, verticalSpeed*(1-abs(horizontalSpeed))); //Right wheel ranges from 0 to verticalSpeed (determines angle of turn)
   }
   else if (horizontalSpeed < 0 && verticalSpeed != 0){  //Left Turn
-    wheel_rotate(myservo1, verticalSpeed*(1-abs(horizontalSpeed))); //Left wheel ranges from 0 to verticalSpeed (determines angle of turn)
-    wheel_rotate(myservo2, verticalSpeed);
+    actuate_motor(myservo1, verticalSpeed*(1-abs(horizontalSpeed))); //Left wheel ranges from 0 to verticalSpeed (determines angle of turn)
+    actuate_motor(myservo2, verticalSpeed);
   }
   else{ // rotationSpeed != 0; Rotate rover about centre axis //Only rotate on the spot if the joystick doesn't go forward or backward
-    wheel_rotate(myservo1, rotationSpeed);
-    wheel_rotate(myservo2, -rotationSpeed);
+    actuate_motor(myservo1, rotationSpeed);
+    actuate_motor(myservo2, -rotationSpeed);
   }
+}
+void moveArm(){
+  if (newData[10]){//move claw down
+    actuate_motor(myservo3, -1);
+  }
+  else if (newData[11]){//move claw up
+    actuate_motor(myservo3, 1);
+  }
+  if (newData[12]){//move arm down
+    actuate_motor(myservo4, -1);
+  }
+  else if (newData[13]){//move arm up
+    actuate_motor(myservo4, 1);
+  }   
+  if (newData[14]){//move sideway right
+    actuate_motor(myservo5, -1);
+  }
+  else if (newData[15]){//move sideway lmeft
+    actuate_motor(myservo5, 1);
+  }  
 }
