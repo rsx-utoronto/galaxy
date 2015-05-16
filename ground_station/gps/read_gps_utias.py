@@ -30,8 +30,19 @@ myfont = pygame.font.SysFont("monospace", 15)
 done = False
 clock = pygame.time.Clock()
 #Reference = '4346.9244', '07927.9656'
-reference_y = 4346.9244
-reference_x = 7927.9656
+reference_y1 = 4346.9244
+reference_x1 = 7927.9656
+reference_y2 = 4346.9266
+reference_x2 = 7927.9259
+#4346.9212 7928.0415
+reference_y3 = 4346.9212
+reference_x3 = 7928.0415
+#4346.9695 7928.0534
+reference_y4 = 4346.9695
+reference_x4 = 7928.0534
+#4346.9705 7927.8968
+reference_y5 = 4346.9705
+reference_x5 = 7927.8968
 
 ser = serial.Serial('/dev/ttyUSB0', 4800, timeout=1)
 latitude = ''
@@ -48,9 +59,10 @@ red_rect = pygame.transform.scale(red_rect, (int(w*x_scale),int(h*y_scale)))
 # 4378.2089, 7946.5451
 # 4378.2838, 76.7566
 
+"""
 ast_1_lon = raw_input("Input Astronaut 1's longitude: ")
 ast_1_lat = raw_input("Input Astronaut 1's latitude: ")
-"""
+
 ast_2_lon = raw_input("Input Astronaut 2's longitude: ")
 ast_2_lat = raw_input("Input Astronaut 2's latitude: ")
 
@@ -59,10 +71,10 @@ ast_3_lat = raw_input("Input Astronaut 3's latitude: ")
 
 ast_4_lon = raw_input("Input Astronaut 4's longitude: ")
 ast_4_lat = raw_input("Input Astronaut 4's latitude: ")
-"""
+
 ast_1_x = 695 + (float(ast_1_lon) - reference_x)*(-10500/2)
 ast_1_y = 400 + (float(ast_1_lat) - reference_y)*(-15600/2)
-"""
+
 ast_2_x = 695 + (float(ast_2_lon) - reference_x)*(-10500/2)
 ast_2_y = 400 + (float(ast_2_lat) - reference_y)*(-15600/2)
 
@@ -111,14 +123,28 @@ while(not done):
     #print('\n')
     #print(readgps(latitude,longitude))
     #print('\n')
+    
+    lon = readgps(latitude,longitude)[1]
+    lat = readgps(latitude,longitude)[0]
+    
+    #x1 = 695 + (float(lon) - reference_x1)*(-10500/2)
+    #y1 = 400 + (float(lat) - reference_y1)*(-15600/2)
+    x2 = 930 + (float(lon) - reference_x2)*(-10500/2)
+    y2 = 365 + (float(lat) - reference_y2)*(-15600/2)
+    x3 = 290 + (float(lon) - reference_x3)*(-10500/2)
+    y3 = 375 + (float(lat) - reference_y3)*(-15600/2)
+    x4 = 220 + (float(lon) - reference_x4)*(-10500/2)
+    y4 = 45 + (float(lat) - reference_y4)*(-15600/2)
+    x5 = 1075 + (float(lon) - reference_x5)*(-10500/2)
+    y5 = 20 + (float(lat) - reference_y5)*(-15600/2)
 
-    x = 695 + (float(readgps(latitude,longitude)[1]) - reference_x)*(-10500/2)
-    y = 400 + (float(readgps(latitude,longitude)[0]) - reference_y)*(-15600/2)
+    x = (x2+x3+x4+x5)/4
+    y = (y2+y3+y4+y5)/4
 
     #print(pos)
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
-    clock.tick(10)
+    #clock.tick(10)
     
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
@@ -126,11 +152,11 @@ while(not done):
     
     screen.blit(red_rect,(0,0))
     pygame.draw.circle(screen, RED, [int(x), int(y)], 10)
-    print("diffx: ")
-    print((float(ast_1_lon) - reference_x))
-    print("\ndiffy: ")
-    print((float(ast_1_lat) - reference_y))
-
+    #print("diffx: ")
+    #print((float(ast_1_lon) - reference_x))
+    #print("\ndiffy: ")
+    #print((float(ast_1_lat) - reference_y))
+    """
     print("\n astx: ")
     print(ast_1_x)
     print("\n asty: ")
@@ -140,7 +166,7 @@ while(not done):
     pygame.draw.circle(screen, GREEN, [int(ast_2_x), int(ast_2_y)], 10)
     pygame.draw.circle(screen, GREEN, [int(ast_3_x), int(ast_3_y)], 10)
     pygame.draw.circle(screen, GREEN, [int(ast_4_x), int(ast_4_y)], 10)
-
+    """
     #screen.blit(label,(x-30,y-10))
 
     #pygame.draw.line(screen, GREEN, [oldx, oldy], [int(x),int(y)], 5)
