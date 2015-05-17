@@ -92,13 +92,21 @@ void moveRover(float verticalSpeed, float horizontalSpeed, float rotationSpeed){
     actuate_motor(myservo1, verticalSpeed);
     actuate_motor(myservo2, verticalSpeed);
   }
-  else if (horizontalSpeed > 0  && verticalSpeed != 0){  //Right Turn
-    actuate_motor(myservo1, verticalSpeed);
+  else if (horizontalSpeed < 0 && verticalSpeed != 0){  //Left Turn
+    actuate_motor(myservo1, horizontalSpeed);
     actuate_motor(myservo2, verticalSpeed*(1-abs(horizontalSpeed))); //Right wheel ranges from 0 to verticalSpeed (determines angle of turn)
   }
-  else if (horizontalSpeed < 0 && verticalSpeed != 0){  //Left Turn
+  else if (horizontalSpeed > 0 && verticalSpeed != 0){  //Rightt Turn
     actuate_motor(myservo1, verticalSpeed*(1-abs(horizontalSpeed))); //Left wheel ranges from 0 to verticalSpeed (determines angle of turn)
-    actuate_motor(myservo2, verticalSpeed);
+    actuate_motor(myservo2, horizontalSpeed);
+  }
+  else if (horizontalSpeed < 0 && verticalSpeed == 0){  //Left Turn
+    actuate_motor(myservo1, horizontalSpeed);
+    actuate_motor(myservo2, verticalSpeed*(1-abs(horizontalSpeed))); //Right wheel ranges from 0 to verticalSpeed (determines angle of turn)
+  }
+  else if (horizontalSpeed > 0 && verticalSpeed == 0){  //Rightt Turn
+    actuate_motor(myservo1, verticalSpeed*(1-abs(horizontalSpeed))); //Left wheel ranges from 0 to verticalSpeed (determines angle of turn)
+    actuate_motor(myservo2, horizontalSpeed);
   }
   else{ // rotationSpeed != 0; Rotate rover about centre axis //Only rotate on the spot if the joystick doesn't go forward or backward
     actuate_motor(myservo1, rotationSpeed);
@@ -112,16 +120,25 @@ void moveArm(){
   else if (newData[11]){//move claw up
     actuate_motor(myservo3, 1);
   }
+  else{//move claw up
+    actuate_motor(myservo3, 0);
+  }
   if (newData[12]){//move arm down
     actuate_motor(myservo4, -1);
   }
   else if (newData[13]){//move arm up
     actuate_motor(myservo4, 1);
-  }   
+  }
+  else{//move claw up
+    actuate_motor(myservo4, 0);
+  }  
   if (newData[14]){//move sideway right
     actuate_motor(myservo5, -1);
   }
   else if (newData[15]){//move sideway lmeft
     actuate_motor(myservo5, 1);
+  }
+  else{//move claw up
+    actuate_motor(myservo5, 0);
   }  
 }
