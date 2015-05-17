@@ -33,7 +33,7 @@ clock = pygame.time.Clock()
 latitude = ''
 longitude = ''
 
-red_rect = pygame.image.load('desert.jpg')
+red_rect = pygame.image.load('utias.jpg')
 w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
