@@ -1,7 +1,7 @@
 import socket, threading
 from serial import *
 
-HOST = '192.168.1.114'
+HOST = '192.168.1.101'
 PORT = 51234
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -10,7 +10,7 @@ s.listen(4)
 clients = [] #list of clients connected
 lock = threading.Lock()
 
-ser = Serial("/dev/ttyUSB0", 9600, timeout = 0, writeTimeout = 0)
+ser = Serial("/dev/ttyUSB0", 9600, timeout = 0.01, writeTimeout = 0.01)
 
 class chatServer(threading.Thread):
     def __init__(self, (socket,address)):
