@@ -5,7 +5,7 @@ import pygame, time, serial, csv, motor_func, math, socket, telnetlib
 
 
 #tn = telnetlib.Telnet("192.168.1.101","51235")
-tn = telnetlib.Telnet("100.64.244.34","51235")
+tn = telnetlib.Telnet("100.64.244.34","51236")
 #100.64.247.43 
 
 import serial
