@@ -15,7 +15,7 @@ float sidespeed = 1;
 
 float dampingFactor = 0;
 Servo myservo1;  //Left wheel
-Servo myservo2;  //Right wheel
+Servo myservo2;  //Right wheelv
 Servo myservo3; //claw
 Servo myservo4; //arm
 Servo myservo5; //slider
@@ -31,11 +31,11 @@ void setup(){
   myservo4.attach(9);
   myservo5.attach(10);
   myservo6.attach(11);
-  myservo6.attach(12);
-  myservo6.attach(13);
+  myservo7.attach(12);
+  myservo8.attach(13);
   Serial.begin(9600);
   Serial2.begin(9600);
-  delay(500);
+  //delay(100);
 }
 
 void loop(){
@@ -46,7 +46,7 @@ void loop(){
     String string = Serial2.readStringUntil('\n');
     //String string = "0.5,1.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0"; //Test String
     
-    Serial.println(string);
+    //Serial.println(string);
 
     for(int i = 0; i < string.length(); i++){
       if(string.substring(i, i+1) == "," || i == string.length()-1){
@@ -66,15 +66,17 @@ void loop(){
   rotationSpeed = newData[2];
   dampingFactor = (newData[3]+1)/2; //Takes a number from -1 to 1 and converts it to 0 to 1 to control speed range 
   
-  Serial.print("Vertical Speed: ");
-  Serial.println(verticalSpeed);
-  Serial.print("Horizontal Speed: ");
-  Serial.println(horizontalSpeed);
-  Serial.print("Rotation Speed: ");
-  Serial.println(rotationSpeed);
+//  Serial.print("Vertical Speed: ");
+//  Serial.println(verticalSpeed);
+//  Serial.print("Horizontal Speed: ");
+//  Serial.println(horizontalSpeed);
+//  Serial.print("Rotation Speed: ");
+//  Serial.println(rotationSpeed);
   }
   moveRover(verticalSpeed, horizontalSpeed, rotationSpeed);
   moveArm();
+  moveClaw();
+  Serial.println("claw started");
 }
 
 //Takes number in range [-1:1] and converts to dampingFactor*[31:59]
@@ -135,30 +137,43 @@ void moveArm(){
 }
 
 void moveClaw(){
+//  for (int i = 0; i <=10;i++){
+//    Serial.print(newData[i]);
+//    Serial.print(" ");
+//  }
+//  
+//  Serial.println();
+  
   if (newData[4]){//close claw
     actuate_servo(myservo6, -1);
+    Serial.println("princess ginger");
   }
-  else if (!newData[5]){//open claw
+  else if (newData[5]){//open claw
     actuate_servo(myservo6, 1);
   }
   if (newData[6]){//close claw
     actuate_servo(myservo7, -1);
   }
-  else if (!newData[8]){//open claw
+  else if (newData[8]){//open claw
     actuate_servo(myservo7, 1);
   }
   if (newData[7]){//close claw
     actuate_servo(myservo8, -1);
   }
-  else if (!newData[9]){//open claw
+  else if (newData[9]){//open claw
     actuate_servo(myservo8, 1);
   }
 }
 
 void actuate_servo(Servo servo, int servoSpeed){
   int servoAngle = servo.read();
+  //Serial.print(servoAngle); 
+  Serial.println(servoAngle);
   if (servoAngle<=180 && servoAngle >=0){
-    servoAngle = servoAngle + servoSpeed; 
+    servoAngle = servoAngle + servoSpeed;
+    servo.write(servoAngle);
+    //Serial.println(servoAngle);
+    //Serial.println(servoSpeed); 
   }
 }
 
