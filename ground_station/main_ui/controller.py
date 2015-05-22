@@ -7,7 +7,7 @@ pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 
-tn = telnetlib.Telnet("192.168.1.101","51234")
+tn = telnetlib.Telnet("192.168.1.102","51234")
 
 output_delay = 0.25
 
