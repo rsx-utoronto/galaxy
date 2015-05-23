@@ -1,18 +1,16 @@
 import socket, threading
 from serial import *
 
-<<<<<<< HEAD
-HOST = '100.64.248.153'
-=======
-HOST = '100.64.244.34' #Laptop IP address
->>>>>>> 339ee0c631d1e2a6dd4edc7eaefb9ab176c88581
-PORT = 51235
+HOST = '192.168.1.102' #RPi IP address
+PORT = 51234
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(4)
 clients = [] #list of clients connected
 lock = threading.Lock()
+
+ser = Serial("/dev/ttyUSB0", 9600, timeout = 0.01, writeTimeout = 0.01)
 
 class chatServer(threading.Thread):
     def __init__(self, (socket,address)):
@@ -26,13 +24,13 @@ class chatServer(threading.Thread):
         lock.release()
         print '%s:%s connected.' % self.address
         while True:
-            sensor_data = self.socket.recv(1024)
-            print sensor_data
-            if not sensor_data:
+            data = self.socket.recv(1024)
+            if not data:
                 break
             for c in clients:
                 #c.socket.send(data)
-		print sensor_data
+		print data
+		ser.write(str(data) + "\n")
         self.socket.close()
         print '%s:%s disconnected.' % self.address
         lock.acquire()
@@ -42,4 +40,3 @@ class chatServer(threading.Thread):
 while True: # wait for socket to connect
     # send socket to chatserver and start monitoring
     chatServer(s.accept()).start()
-    #print sensor_data

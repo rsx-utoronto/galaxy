@@ -1,7 +1,7 @@
 import socket, threading
 from serial import *
 
-HOST = '192.168.1.102'
+HOST = '100.64.249.58'
 PORT = 51234
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

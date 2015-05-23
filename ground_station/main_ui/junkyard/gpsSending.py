@@ -1,19 +1,18 @@
-import pygame, time, serial, math, socket, telnetlib
+#to run, 'sudo python' then 'import gamepad' (this file), then 'gamepad.test()'
+#to install pygame: apt-get install python-pygame
+
+import pygame, time, serial, csv, motor_func, math, socket, telnetlib
+
 
 #tn = telnetlib.Telnet("192.168.1.101","51235")
 tn = telnetlib.Telnet("100.64.244.34","51235")
-#tn = telnetlib.Telnet("100.64.249.58","51236")
 #100.64.247.43 
-#
-
-from serial import *
-
-ser = Serial("/dev/ttyUSB0", 9600, timeout = 0.01, writeTimeout = 0.01)
 
 import serial
 import socket
 import socket
 import time
+
 
 ser = serial.Serial('/dev/ttyUSB1', 4800, timeout=1)
 latitude = ''
@@ -40,10 +39,13 @@ def test():
         lon = data[1] #Real lines
         lat = data[0]
 	str_sent = lon + ',' + lat
+	print('str_sent')
+	print(str_sent)
 
-	str_sensor = str_sent + ',' + ser.readline()
-	tn.write(str_sensor)
-	print(str_sensor)
+	#lon = 1234
+	#lat = 6789
+        #tn.write(str(readgps(latitude,longitude)).replace("(","").replace(")","").replace(" ",""))
+	#tn.write(str((lon,lat)).replace("(","").replace(")","").replace(" ",""))
 	tn.write(str_sent)
 
 if __name__ == '__main__':
