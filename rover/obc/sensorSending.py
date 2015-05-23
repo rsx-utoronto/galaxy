@@ -39,9 +39,9 @@ def test():
 	#time.sleep(1)
         lon = data[1] #Real lines
         lat = data[0]
-	str_sent = lon + ',' + lat
+	str_gps = lon + ',' + lat
 
-	str_sensor = str_sent + ',' + ser.readline()
+	str_sensor = str_gps + ',' + ser.readline()
 	tn.write(str_sensor)
 	print(str_sensor)
 	tn.write(str_sent)
