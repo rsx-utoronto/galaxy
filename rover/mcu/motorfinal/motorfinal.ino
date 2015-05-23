@@ -10,7 +10,7 @@ float horizontalSpeed = 0; //right/left; joystick element 0
 float rotationSpeed = 0; //rotate right/left about centre axis; joystick element 3
 
 float armspeed = 1;
-float clawspeed = 1;
+float clawspeed = 2;
 float sidespeed = 1;
 
 float dampingFactor = 0;
@@ -143,25 +143,25 @@ void moveClaw(){
 //  }
 //  
 //  Serial.println();
-  
+  int clawSpeed = 2;
   if (newData[4]){//close claw
-    actuate_servo(myservo6, -1);
+    actuate_servo(myservo6, clawSpeed);
     Serial.println("princess ginger");
   }
   else if (newData[5]){//open claw
-    actuate_servo(myservo6, 1);
+    actuate_servo(myservo6, -clawSpeed);
   }
   if (newData[6]){//close claw
-    actuate_servo(myservo7, -1);
+    actuate_servo(myservo7, -clawSpeed);
   }
   else if (newData[8]){//open claw
-    actuate_servo(myservo7, 1);
+    actuate_servo(myservo7, clawSpeed);
   }
   if (newData[7]){//close claw
-    actuate_servo(myservo8, -1);
+    actuate_servo(myservo8, -clawSpeed);
   }
   else if (newData[9]){//open claw
-    actuate_servo(myservo8, 1);
+    actuate_servo(myservo8, clawSpeed);
   }
 }
 

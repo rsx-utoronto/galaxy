@@ -1,7 +1,7 @@
 /* MQ-4 Methane Sensor Circuit with Arduino */
 
 const int AOUTpin=0;//the AOUT pin of the methane sensor goes into analog pin A0 of the arduino
-const int DOUTpin=8;//the DOUT pin of the methane sensor goes into digital pin D8 of the arduino
+const int DOUTpin=5;//the DOUT pin of the methane sensor goes into digital pin D8 of the arduino
 const int ledPin=13;//the anode of the LED connects to digital pin D13 of the arduino
 float Ro = 10000.0;
 float Vrl = 0.0;
