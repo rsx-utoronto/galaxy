@@ -1,7 +1,7 @@
 import socket, threading
 from serial import *
 
-HOST = '100.64.244.34'
+HOST = '100.64.244.34' #Laptop IP address
 PORT = 51235
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
