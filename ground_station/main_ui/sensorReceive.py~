@@ -24,7 +24,7 @@ class chatServer(threading.Thread):
         while True:
             sensor_data = self.socket.recv(1024)
             print sensor_data
-            if not data:
+            if not sensor_data:
                 break
             for c in clients:
                 #c.socket.send(data)
