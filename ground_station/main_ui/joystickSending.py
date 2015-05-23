@@ -7,7 +7,7 @@ pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 
-tn = telnetlib.Telnet("192.168.1.114","51234")
+tn = telnetlib.Telnet("192.168.1.102","51234") #RPi IP address
 
 output_delay = 0.25
 
@@ -40,7 +40,3 @@ def test():
 
 if __name__ == '__main__':
     test()
-
-
-
-

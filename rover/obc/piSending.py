@@ -1,7 +1,7 @@
-import pygame, time, serial, math, socket, telnetlib
+import time, serial, math, socket, telnetlib
 
 #tn = telnetlib.Telnet("192.168.1.101","51235")
-tn = telnetlib.Telnet("100.64.244.34","51235")
+tn = telnetlib.Telnet("100.64.244.34","51235") #Laptop IP address
 #tn = telnetlib.Telnet("100.64.249.58","51236")
 #100.64.247.43 
 #
