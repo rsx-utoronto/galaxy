@@ -1,7 +1,11 @@
 import socket, threading
 from serial import *
 
+<<<<<<< HEAD
+HOST = '100.64.248.153'
+=======
 HOST = '100.64.244.34' #Laptop IP address
+>>>>>>> 339ee0c631d1e2a6dd4edc7eaefb9ab176c88581
 PORT = 51235
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -28,7 +32,7 @@ class chatServer(threading.Thread):
                 break
             for c in clients:
                 #c.socket.send(data)
-		#print sensor_data
+		print sensor_data
         self.socket.close()
         print '%s:%s disconnected.' % self.address
         lock.acquire()
