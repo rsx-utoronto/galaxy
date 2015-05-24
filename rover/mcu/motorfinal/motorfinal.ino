@@ -157,7 +157,7 @@ void loop(){
   Serial.print("  z: ");
   Serial.println(z);
   
-  delay(250);
+  //delay(250);
   Serial.print("Methane MethaneValue: ");
   Serial.println(MethaneValue);//prints the methane MethaneValue
   Serial.print("Limit: ");
@@ -169,10 +169,10 @@ void loop(){
   Serial.println(moistureValue); 
 
   //Serial.write(AOUTpin);
-  delay(250);
+  //delay(250);
 }
 
-//Takes number in range [-1:1] and converts to dampingFactor*[31:59]
+//Takes number in range [-1:1] and converts to dampingFactor*[31:159]
 int custom_map(float num){
   int adjustedSpeed;
   
@@ -186,7 +186,22 @@ int custom_map(float num){
 }
 
 void actuate_motor(Servo servo, float joystickSpeed){
+//  int motorspeed = custom_map(joystickSpeed);
+//  if (joystickSpeed >= 0){
+//    for (int i = 90; i <=motorSpeed; i++){
+//      servo.write(i);
+//      delay(1);
+//    }
+//  }
+//  else if (joystickSpeed <= 0){
+//    for (int i = 90; i >=motorSpeed; i--){
+//      servo.write(i);
+//      delay(1);
+//    }
   servo.write(custom_map(joystickSpeed));
+//  }
+
+  //servo.write(motorspeed);
 }
 
 void moveRover(float verticalSpeed, float horizontalSpeed, float rotationSpeed){
