@@ -18,6 +18,7 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Example code for the draw module")
 myfont = pygame.font.SysFont("monospace", 15)
+
 #Loop until the user clicks the close button.
 done = False
 clock = pygame.time.Clock()
@@ -43,11 +44,15 @@ w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
 red_rect = pygame.transform.scale(red_rect, (int(w*x_scale),int(h*y_scale)))
+
+arrow = pygame.image.load('green-arrow.png')
+arrow = pygame.transform.scale(arrow, (20,20))
+
 # 4378.2122, 7946.6208
 # 4378.2078, 7946.7341
 # 4378.2089, 7946.5451
 # 4378.2838, 76.7566
-<<<<<<< HEAD
+
 ast_1_lon = 07927.9620
 ast_1_lat = 4346.9230
 ast_2_lon = 7927.9680 #white, increase lon --> decrease x
@@ -56,7 +61,6 @@ ast_3_lon = 7927.9580 #black, decrease lat --> decrease y
 ast_3_lat = 4346.9190
 ast_4_lon = 7927.9550
 ast_4_lat = 4346.9160
-=======
 
 
 ast_1_lon = 07927.9620
@@ -71,7 +75,12 @@ ast_3_lat = 4346.9190
 ast_4_lon = 7927.9550
 ast_4_lat = 4346.9160
 
->>>>>>> 3f527053ec051717e0cb5f5726a4eb22915dbc21
+def rotatefunc(angle, gameObject, rotations={}):
+    #r = rotations.get(gameObject,0) + angle
+    r = angle
+    rotations[gameObject] = r
+    return pygame.transform.rotate(gameObject, r)
+
 def readgps(latitude,longitude):
     #Read the GPG LINE using the NMEA standard
     while True:
@@ -96,7 +105,6 @@ def processAdress(lon, lat):
     x = (x2+x3+x4+x5)/4
     y = (y2+y3+y4+y5)/4
     return {'lon':x, "lat":y}
-<<<<<<< HEAD
 
 while(not done):
     #label = myfont.render(pos, 1, (0,0,0))
@@ -113,7 +121,6 @@ while(not done):
     ast3y = processAdress(ast_3_lon,ast_3_lat)['lat']
     ast4x = processAdress(ast_4_lon,ast_4_lat)['lon']
     ast4y = processAdress(ast_4_lon,ast_4_lat)['lat']
-=======
 
 
 while(not done):
@@ -137,7 +144,6 @@ while(not done):
     ast4x = processAdress(ast_4_lon,ast_4_lat)['lon']
     ast4y = processAdress(ast_4_lon,ast_4_lat)['lat']
 
->>>>>>> 3f527053ec051717e0cb5f5726a4eb22915dbc21
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
     #clock.tick(10)
@@ -145,21 +151,20 @@ while(not done):
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
             done=True # Flag that we are done so we exit this loop
+    #screen.blit(red_rect,(0,0))
+    #pygame.draw.circle(screen, RED, [int(x), int(y)], 10)
+
+    newArrow = rotatefunc(arrowangle, arrow)
     screen.blit(red_rect,(0,0))
-    pygame.draw.circle(screen, RED, [int(x), int(y)], 10)
+    screen.blit(newArrow,(int(x),int(y)))
+
     print(x, y)
     print(ast1x,ast1y)
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 3f527053ec051717e0cb5f5726a4eb22915dbc21
     pygame.draw.circle(screen, GREEN, [int(ast1x), int(ast1y)], 10)
     pygame.draw.circle(screen, WHITE, [int(ast2x), int(ast2y)], 10)
     pygame.draw.circle(screen, BLACK, [int(ast3x), int(ast3y)], 10)
     pygame.draw.circle(screen, BLUE, [int(ast1x), int(ast1y)], 10)
-<<<<<<< HEAD
-=======
 
     """
     print("\n astx: ")
@@ -173,7 +178,6 @@ while(not done):
     pygame.draw.circle(screen, GREEN, [int(ast_4_x), int(ast_4_y)], 10)
     """
     #screen.blit(label,(x-30,y-10))
->>>>>>> 3f527053ec051717e0cb5f5726a4eb22915dbc21
 
     #screen.blit(label,(x-30,y-10))
     #pygame.draw.line(screen, GREEN, [oldx, oldy], [int(x),int(y)], 5)

@@ -33,14 +33,17 @@ clock = pygame.time.Clock()
 latitude = ''
 longitude = ''
 
-red_rect = pygame.image.load('desert.jpg')
+red_rect = pygame.image.load('utias.jpg')
 w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
 red_rect = pygame.transform.scale(red_rect, (int(w*x_scale),int(h*y_scale)))
+arrow = pygame.image.load('green-arrow.png')
+arrow = pygame.transform.scale(arrow, (20,20))
 x = 100
 y = 100
 v = 10
+arrowangle = 0
 """
 def readgps(latitude,longitude):
     #Read the GPG LINE using the NMEA standard
@@ -52,6 +55,21 @@ def readgps(latitude,longitude):
             return(latitude,longitude)
     print "Finished"
 """
+"""
+def rot_center(image, angle):
+    orig_rect = image.get_rect()
+    rot_image = pygame.transform.rotate(image, angle)
+    rot_rect = orig_rect.copy()
+    rot_rect.center = rot_image.get_rect().center
+    rot_image = rot_image.subsurface(rot_rect).copy()
+    return rot_image
+"""
+def rotatefunc(angle, gameObject, rotations={}):
+    r = rotations.get(gameObject,0) + angle
+    #r = angle
+    rotations[gameObject] = r
+    return pygame.transform.rotate(gameObject, r)
+
 while(not done):
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
@@ -71,7 +89,14 @@ while(not done):
         y+=v
         if y==601:
             y=600
-
+    if keys[pygame.K_q]:
+        arrowangle+=v
+        if arrowangle==366:
+            arrowangle=0
+    if keys[pygame.K_e]:
+        arrowangle-=v
+        if arrowangle==-1:
+            arrowangle=0
     pos = str(x)+" "+str(600 - y)
     label = myfont.render(pos, 1, (0,0,0))
     
@@ -89,10 +114,22 @@ while(not done):
         if event.type == pygame.QUIT: # If user clicked close
             done=True # Flag that we are done so we exit this loop
     
+    newArrow = rotatefunc(arrowangle, arrow)
     screen.blit(red_rect,(0,0))
-    pygame.draw.circle(screen, BLUE, [int(x), int(y)], 3)
-    screen.blit(label,(x-30,y-10))    
+    screen.blit(newArrow,(int(x),int(y)))
+    #pygame.draw.circle(screen, BLUE, [int(x), int(y)], 3)
 
+
+
+
+    #my_polygon = pygame.draw.polygon(screen, BLUE, [[int(x)-5,int(y)+15],[int(x),int(y)],[int(x)+5,int(y)+15]],3)
+
+
+
+
+
+
+    screen.blit(label,(x-30,y-10))    
     #pygame.draw.line(screen, GREEN, [oldx, oldy], [int(x),int(y)], 5)
     pygame.display.flip()
 # Be IDLE friendly
