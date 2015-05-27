@@ -38,7 +38,7 @@ w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
 red_rect = pygame.transform.scale(red_rect, (int(w*x_scale),int(h*y_scale)))
-arrow = pygame.image.load('green-arrow.png')
+arrow = pygame.image.load('triangle.png')
 arrow = pygame.transform.scale(arrow, (20,20))
 x = 100
 y = 100
@@ -55,7 +55,7 @@ def readgps(latitude,longitude):
             return(latitude,longitude)
     print "Finished"
 """
-"""
+
 def rot_center(image, angle):
     orig_rect = image.get_rect()
     rot_image = pygame.transform.rotate(image, angle)
@@ -63,12 +63,14 @@ def rot_center(image, angle):
     rot_rect.center = rot_image.get_rect().center
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
-"""
+
 def rotatefunc(angle, gameObject, rotations={}):
-    r = rotations.get(gameObject,0) + angle
-    #r = angle
+    #r = rotations.get(gameObject,0) + angle
+    r = angle
     rotations[gameObject] = r
     return pygame.transform.rotate(gameObject, r)
+
+
 
 while(not done):
     keys = pygame.key.get_pressed()
@@ -115,6 +117,7 @@ while(not done):
             done=True # Flag that we are done so we exit this loop
     
     newArrow = rotatefunc(arrowangle, arrow)
+    newArrow = rot_center(arrow, arrowangle)
     screen.blit(red_rect,(0,0))
     screen.blit(newArrow,(int(x),int(y)))
     #pygame.draw.circle(screen, BLUE, [int(x), int(y)], 3)

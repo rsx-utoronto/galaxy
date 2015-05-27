@@ -19,50 +19,45 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Example code for the draw module")
 myfont = pygame.font.SysFont("monospace", 15)
 
-#Loop until the user clicks the close button.
 done = False
 clock = pygame.time.Clock()
-#Reference = '4346.9244', '07927.9656'
+
+"""Reference Point Definition"""
+#Reference1 = 
 reference_y1 = 4346.9244
 reference_x1 = 7927.9656
+#Reference2 =
 reference_y2 = 4346.9266
 reference_x2 = 7927.9259
-#4346.9212 7928.0415
+#Reference3 =
 reference_y3 = 4346.9212
 reference_x3 = 7928.0415
-#4346.9695 7928.0534
+#Reference4 =
 reference_y4 = 4346.9695
 reference_x4 = 7928.0534
-#4346.9705 7927.8968
+#Reference5 =
 reference_y5 = 4346.9705
 reference_x5 = 7927.8968
+
+
 ser = serial.Serial('/dev/ttyUSB0', 4800, timeout=1)
 latitude = ''
 longitude = ''
+
+"""Pictures of the Desert"""
 red_rect = pygame.image.load('utias.jpg')
 w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
 red_rect = pygame.transform.scale(red_rect, (int(w*x_scale),int(h*y_scale)))
 
-arrow = pygame.image.load('green-arrow.png')
+arrow = pygame.image.load('triangle.png')
 arrow = pygame.transform.scale(arrow, (20,20))
 
-# 4378.2122, 7946.6208
-# 4378.2078, 7946.7341
-# 4378.2089, 7946.5451
-# 4378.2838, 76.7566
+"""angle read from arduino sensor"""
+arrowangle = 0
 
-ast_1_lon = 07927.9620
-ast_1_lat = 4346.9230
-ast_2_lon = 7927.9680 #white, increase lon --> decrease x
-ast_2_lat = 4346.9290
-ast_3_lon = 7927.9580 #black, decrease lat --> decrease y
-ast_3_lat = 4346.9190
-ast_4_lon = 7927.9550
-ast_4_lat = 4346.9160
-
-
+"""Change the Location of the astronaut"""
 ast_1_lon = 07927.9620
 ast_1_lat = 4346.9230
 
@@ -75,11 +70,13 @@ ast_3_lat = 4346.9190
 ast_4_lon = 7927.9550
 ast_4_lat = 4346.9160
 
-def rotatefunc(angle, gameObject, rotations={}):
-    #r = rotations.get(gameObject,0) + angle
-    r = angle
-    rotations[gameObject] = r
-    return pygame.transform.rotate(gameObject, r)
+def rot_center(image, angle):
+    orig_rect = image.get_rect()
+    rot_image = pygame.transform.rotate(image, angle)
+    rot_rect = orig_rect.copy()
+    rot_rect.center = rot_image.get_rect().center
+    rot_image = rot_image.subsurface(rot_rect).copy()
+    return rot_image
 
 def readgps(latitude,longitude):
     #Read the GPG LINE using the NMEA standard
@@ -106,21 +103,6 @@ def processAdress(lon, lat):
     y = (y2+y3+y4+y5)/4
     return {'lon':x, "lat":y}
 
-while(not done):
-    #label = myfont.render(pos, 1, (0,0,0))
-    lon = readgps(latitude,longitude)[1]
-    lat = readgps(latitude,longitude)[0]
-    print(lon,lat)
-    x = processAdress(lon,lat)['lon']
-    y = processAdress(lon,lat)['lat']
-    ast1x = processAdress(ast_1_lon,ast_1_lat)['lon']
-    ast1y = processAdress(ast_1_lon,ast_1_lat)['lat']
-    ast2x = processAdress(ast_2_lon,ast_2_lat)['lon']
-    ast2y = processAdress(ast_2_lon,ast_2_lat)['lat']
-    ast3x = processAdress(ast_3_lon,ast_3_lat)['lon']
-    ast3y = processAdress(ast_3_lon,ast_3_lat)['lat']
-    ast4x = processAdress(ast_4_lon,ast_4_lat)['lon']
-    ast4y = processAdress(ast_4_lon,ast_4_lat)['lat']
 
 
 while(not done):
@@ -144,9 +126,12 @@ while(not done):
     ast4x = processAdress(ast_4_lon,ast_4_lat)['lon']
     ast4y = processAdress(ast_4_lon,ast_4_lat)['lat']
 
-    # This limits the while loop to a max of 10 times per second.
-    # Leave this out and we will use all CPU we can.
-    #clock.tick(10)
+    #ast5x = processAdress(ast_4_lon,ast_4_lat)['lon']
+    #ast5y = processAdress(ast_4_lon,ast_4_lat)['lat']
+    #ast6x = processAdress(ast_4_lon,ast_4_lat)['lon']
+    #ast6y = processAdress(ast_4_lon,ast_4_lat)['lat']
+    #ast7x = processAdress(ast_4_lon,ast_4_lat)['lon']
+    #ast7y = processAdress(ast_4_lon,ast_4_lat)['lat']
 
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
@@ -154,7 +139,8 @@ while(not done):
     #screen.blit(red_rect,(0,0))
     #pygame.draw.circle(screen, RED, [int(x), int(y)], 10)
 
-    newArrow = rotatefunc(arrowangle, arrow)
+
+    newArrow = rot_center(arrow, arrowangle)
     screen.blit(red_rect,(0,0))
     screen.blit(newArrow,(int(x),int(y)))
 
@@ -164,7 +150,10 @@ while(not done):
     pygame.draw.circle(screen, GREEN, [int(ast1x), int(ast1y)], 10)
     pygame.draw.circle(screen, WHITE, [int(ast2x), int(ast2y)], 10)
     pygame.draw.circle(screen, BLACK, [int(ast3x), int(ast3y)], 10)
-    pygame.draw.circle(screen, BLUE, [int(ast1x), int(ast1y)], 10)
+    pygame.draw.circle(screen, BLUE, [int(ast4x), int(ast4y)], 10)
+    #pygame.draw.circle(screen, BLUE, [int(ast5x), int(ast5y)], 10)
+    #pygame.draw.circle(screen, BLUE, [int(ast6x), int(ast6y)], 10)
+    #pygame.draw.circle(screen, BLUE, [int(ast7x), int(ast7y)], 10)
 
     """
     print("\n astx: ")
@@ -178,8 +167,5 @@ while(not done):
     pygame.draw.circle(screen, GREEN, [int(ast_4_x), int(ast_4_y)], 10)
     """
     #screen.blit(label,(x-30,y-10))
-
-    #screen.blit(label,(x-30,y-10))
-    #pygame.draw.line(screen, GREEN, [oldx, oldy], [int(x),int(y)], 5)
     pygame.display.flip()
 pygame.quit()
