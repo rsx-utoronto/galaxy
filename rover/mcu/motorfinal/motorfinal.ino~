@@ -27,33 +27,27 @@ float rotationSpeed = 0; //rotate right/left about centre axis; joystick element
 float armspeed = 1;
 float clawspeed = 2;
 float sidespeed = 1;
-int pincerSpeed = 1;
 
 float dampingFactor = 0;
-float forw_backFactor = 0;
-Servo myservo1;  //Left wheel1
-Servo myservo2;  //Right wheel1
+Servo myservo1;  //Left wheel
+Servo myservo2;  //Right wheelv
 Servo myservo3; //claw
 Servo myservo4; //arm
 Servo myservo5; //slider
 Servo myservo6; //claw
 Servo myservo7; //slider
 Servo myservo8; //slider
-Servo myservo9; //left wheel 2
-Servo myservo10; //right wheel 2
 
 void setup(){
   //PWM control wheels
-  myservo1.attach(6); //Left wheel
-  myservo2.attach(7); //Right wheel
+  myservo1.attach(6);
+  myservo2.attach(7);
   myservo3.attach(8);
   myservo4.attach(9);
   myservo5.attach(10);
   myservo6.attach(11);
   myservo7.attach(12);
   myservo8.attach(13);
-  myservo9.attach(4);
-  myservo10.attach(5);
   Serial.begin(9600);
   Serial2.begin(9600);
   //delay(100);
@@ -72,8 +66,9 @@ void setup(){
 void loop(){
   
   int x,y,z; //triple axis data
+  float angle;
   //Tell the HMC5883 where to begin reading data
-  Wire.beginTransmission(address);
+  Wire.beginTransmission(address); 
   Wire.write(0x03); //select register 3, X MSB register
   Wire.endTransmission();
  
@@ -87,17 +82,20 @@ void loop(){
     z |= Wire.read(); //Z lsb
     y = Wire.read()<<8; //Y msb
     y |= Wire.read(); //Y lsb
-    
-    angle = atan2(y,x);
-    if(angle < 0){
-      angle += 2*PI;
-    }
-    angle *= 180/PI;
-    angle += 360 - 13.24 - 257.45;
-    
-    if(angle > 360){
-      angle -= 360;
-    }
+  }
+  
+  angle = atan2(y,x);
+  if(angle < 0){
+    angle += 2*PI;
+  }
+  angle *= 180/PI;
+  angle += 360 - 13.24 - 257.45;
+  if(angle > 360){
+    angle -= 360;
+  }
+  
+  
+  //(360 - 13.24) deg wrt west corresponds to 257.45 deg on sensor
   
   MethaneValue= analogRead(AOUTpin);//reads the analaog MethaneValue from the methane sensor's AOUT pin
   limit= digitalRead(DOUTpin);//reads the digital MethaneValue from the methane sensor's DOUT pin
@@ -145,6 +143,7 @@ void loop(){
   moveArm();
   moveClaw();
   
+  Serial2.println("***********************Princess Ginger is stupid***************************");
   //Serial2.print("x: ");
   Serial2.print(x);
   Serial2.print(",");
@@ -162,27 +161,28 @@ void loop(){
   Serial2.print(",");
   Serial2.print(moistureValue); 
   Serial2.print(",");
-  Serial2.print(moistureValue); 
-  Serial2.print(",");
-  Serial2.println(angle);
+  Serial2.println(moistureValue); 
+
   
   Serial.print("x: ");
   Serial.print(x);
   Serial.print("  y: ");
   Serial.print(y);
   Serial.print("  z: ");
-  Serial.println(z);
+  Serial.print(z);
+  Serial.print("  angle: ");
+  Serial.println(angle);
   
   //delay(250);
-  Serial.print("Methane MethaneValue: ");
-  Serial.println(MethaneValue);//prints the methane MethaneValue
-  Serial.print("Limit: ");
-  Serial.println(limit);//prints the limit reached as either LOW or HIGH (above or underneath)
-  Serial.print("ppm: ");
-  Serial.println(ppm);//prints the limit reached as either LOW or HIGH (above or underneath)
-
-  Serial.print("Soil Moisture: ");
-  Serial.println(moistureValue); 
+//  Serial.print("Methane MethaneValue: ");
+//  Serial.println(MethaneValue);//prints the methane MethaneValue
+//  Serial.print("Limit: ");
+//  Serial.println(limit);//prints the limit reached as either LOW or HIGH (above or underneath)
+//  Serial.print("ppm: ");
+//  Serial.println(ppm);//prints the limit reached as either LOW or HIGH (above or underneath)
+//
+//  Serial.print("Soil Moisture: ");
+//  Serial.println(moistureValue); 
 
   //Serial.write(AOUTpin);
   //delay(250);
@@ -225,23 +225,17 @@ void moveRover(float verticalSpeed, float horizontalSpeed, float rotationSpeed){
   
   if(horizontalSpeed != 0 || verticalSpeed != 0){  //Continuous forward/backward/turning movement
     if (horizontalSpeed > 0){  //first and fourth quadrant
-      actuate_motor(myservo1, turningSpeed); //left wheel moves faster
-      actuate_motor(myservo2, turningSpeed*(1-abs(horizontalSpeed))); //right wheel moves slower wrt left wheel
-      actuate_motor(myservo9, turningSpeed); //left wheel moves faster
-      actuate_motor(myservo10, turningSpeed*(1-abs(horizontalSpeed))); //right wheel moves slower wrt left wheel
+      actuate_motor(myservo2, turningSpeed); //left wheel moves faster
+      actuate_motor(myservo1, turningSpeed*(1-abs(horizontalSpeed))); //right wheel moves slower wrt left wheel
     }
     else{  //second and third quadrant
-      actuate_motor(myservo1, turningSpeed*(1-abs(horizontalSpeed))); //Left wheel moves slower wrt right wheel
-      actuate_motor(myservo2, turningSpeed); //Right wheel moves faster
-      actuate_motor(myservo9, turningSpeed*(1-abs(horizontalSpeed))); //Left wheel moves slower wrt right wheel
-      actuate_motor(myservo10, turningSpeed); //Right wheel moves faster
+      actuate_motor(myservo2, turningSpeed*(1-abs(horizontalSpeed))); //Left wheel moves slower wrt right wheel
+      actuate_motor(myservo1, turningSpeed); //Right wheel moves faster
     }
   }
   else{  //Rotate rover about centre axis; only rotate on the spot if the joystick doesn't go forward or backward
     actuate_motor(myservo1, rotationSpeed);
     actuate_motor(myservo2, -rotationSpeed);
-    actuate_motor(myservo9, rotationSpeed);
-    actuate_motor(myservo10, -rotationSpeed);
   }
 }
 
@@ -267,30 +261,38 @@ void moveArm(){
 }
 
 void moveClaw(){
+//  for (int i = 0; i <=10;i++){
+//    Serial.print(newData[i]);
+//    Serial.print(" ");
+//  }
+//  
+//  Serial.println();
+  int clawSpeed = 2;
   if (newData[4]){//close claw
-    actuate_servo(myservo6, pincerSpeed);
+    actuate_servo(myservo6, clawSpeed);
+    //Serial.println("princess ginger");
   }
   else if (newData[5]){//open claw
-    actuate_servo(myservo6, -pincerSpeed);
+    actuate_servo(myservo6, -clawSpeed);
   }
   if (newData[6]){//close claw
-    actuate_servo(myservo7, -pincerSpeed);
+    actuate_servo(myservo7, -clawSpeed);
   }
   else if (newData[8]){//open claw
-    actuate_servo(myservo7, pincerSpeed);
+    actuate_servo(myservo7, clawSpeed);
   }
   if (newData[7]){//close claw
-    actuate_servo(myservo8, -pincerSpeed);
+    actuate_servo(myservo8, -clawSpeed);
   }
   else if (newData[9]){//open claw
-    actuate_servo(myservo8, pincerSpeed);
+    actuate_servo(myservo8, clawSpeed);
   }
 }
 
 void actuate_servo(Servo servo, int servoSpeed){
   int servoAngle = servo.read();
   //Serial.print(servoAngle); 
-  Serial.println(servoAngle);
+  //Serial.println(servoAngle);
   if (servoAngle<=180 && servoAngle >=0){
     servoAngle = servoAngle + servoSpeed;
     servo.write(servoAngle);
@@ -302,8 +304,7 @@ void actuate_servo(Servo servo, int servoSpeed){
 float diagonalSpeed(float vy, float vx){
   float vz = sqrt(vx*vx+vy*vy);
   
-  //return vz*vy/abs(vy)/sqrt(2);  //Normalize speed for range [-1:1] and direction of vy
-  return (vy>0 ? vz:-vz)/sqrt(2);
+  return vz*vy/abs(vy)/sqrt(2);  //Normalize speed for range [-1:1] and direction of vy
 }
 
 float get_CO (float ratio){
