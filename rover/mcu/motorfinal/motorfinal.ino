@@ -52,8 +52,13 @@ void setup(){
   myservo6.attach(11);
   myservo7.attach(12);
   myservo8.attach(13);
+<<<<<<< HEAD
   myservo9.attach(4);
   myservo10.attach(5);
+=======
+  myservo9.attach(5);
+  myservo10.attach(6);
+>>>>>>> bdada7c8c82b12d81051b896b40b7fa5dd28b480
   Serial.begin(9600);
   Serial2.begin(9600);
   //delay(100);
