@@ -27,6 +27,7 @@ float rotationSpeed = 0; //rotate right/left about centre axis; joystick element
 float armspeed = 1;
 float clawspeed = 2;
 float sidespeed = 1;
+int pincerSpeed = 1;
 
 float dampingFactor = 0;
 Servo myservo1;  //Left wheel
@@ -37,17 +38,21 @@ Servo myservo5; //slider
 Servo myservo6; //claw
 Servo myservo7; //slider
 Servo myservo8; //slider
+Servo myservo9; //left wheel 2
+Servo myservo10; //right wheel 2
 
 void setup(){
   //PWM control wheels
-  myservo1.attach(6);
-  myservo2.attach(7);
+  myservo1.attach(6); //Left wheel
+  myservo2.attach(7); //Right wheel
   myservo3.attach(8);
   myservo4.attach(9);
   myservo5.attach(10);
   myservo6.attach(11);
   myservo7.attach(12);
   myservo8.attach(13);
+  myservo9.attach(5);
+  myservo10.attach(6);
   Serial.begin(9600);
   Serial2.begin(9600);
   //delay(100);
@@ -129,7 +134,6 @@ void loop(){
   moveArm();
   moveClaw();
   
-  Serial2.println("***********************Princess Ginger is stupid***************************");
   //Serial2.print("x: ");
   Serial2.print(x);
   Serial2.print(",");
@@ -209,17 +213,23 @@ void moveRover(float verticalSpeed, float horizontalSpeed, float rotationSpeed){
   
   if(horizontalSpeed != 0 || verticalSpeed != 0){  //Continuous forward/backward/turning movement
     if (horizontalSpeed > 0){  //first and fourth quadrant
-      actuate_motor(myservo2, turningSpeed); //left wheel moves faster
-      actuate_motor(myservo1, turningSpeed*(1-abs(horizontalSpeed))); //right wheel moves slower wrt left wheel
+      actuate_motor(myservo1, turningSpeed); //left wheel moves faster
+      actuate_motor(myservo2, turningSpeed*(1-abs(horizontalSpeed))); //right wheel moves slower wrt left wheel
+      actuate_motor(myservo9, turningSpeed); //left wheel moves faster
+      actuate_motor(myservo10, turningSpeed*(1-abs(horizontalSpeed))); //right wheel moves slower wrt left wheel
     }
     else{  //second and third quadrant
-      actuate_motor(myservo2, turningSpeed*(1-abs(horizontalSpeed))); //Left wheel moves slower wrt right wheel
-      actuate_motor(myservo1, turningSpeed); //Right wheel moves faster
+      actuate_motor(myservo1, turningSpeed*(1-abs(horizontalSpeed))); //Left wheel moves slower wrt right wheel
+      actuate_motor(myservo2, turningSpeed); //Right wheel moves faster
+      actuate_motor(myservo9, turningSpeed*(1-abs(horizontalSpeed))); //Left wheel moves slower wrt right wheel
+      actuate_motor(myservo10, turningSpeed); //Right wheel moves faster
     }
   }
   else{  //Rotate rover about centre axis; only rotate on the spot if the joystick doesn't go forward or backward
     actuate_motor(myservo1, rotationSpeed);
     actuate_motor(myservo2, -rotationSpeed);
+    actuate_motor(myservo9, rotationSpeed);
+    actuate_motor(myservo10, -rotationSpeed);
   }
 }
 
@@ -245,31 +255,23 @@ void moveArm(){
 }
 
 void moveClaw(){
-//  for (int i = 0; i <=10;i++){
-//    Serial.print(newData[i]);
-//    Serial.print(" ");
-//  }
-//  
-//  Serial.println();
-  int clawSpeed = 2;
   if (newData[4]){//close claw
-    actuate_servo(myservo6, clawSpeed);
-    Serial.println("princess ginger");
+    actuate_servo(myservo6, pincerSpeed);
   }
   else if (newData[5]){//open claw
-    actuate_servo(myservo6, -clawSpeed);
+    actuate_servo(myservo6, -pincerSpeed);
   }
   if (newData[6]){//close claw
-    actuate_servo(myservo7, -clawSpeed);
+    actuate_servo(myservo7, -pincerSpeed);
   }
   else if (newData[8]){//open claw
-    actuate_servo(myservo7, clawSpeed);
+    actuate_servo(myservo7, pincerSpeed);
   }
   if (newData[7]){//close claw
-    actuate_servo(myservo8, -clawSpeed);
+    actuate_servo(myservo8, -pincerSpeed);
   }
   else if (newData[9]){//open claw
-    actuate_servo(myservo8, clawSpeed);
+    actuate_servo(myservo8, pincerSpeed);
   }
 }
 
@@ -288,7 +290,8 @@ void actuate_servo(Servo servo, int servoSpeed){
 float diagonalSpeed(float vy, float vx){
   float vz = sqrt(vx*vx+vy*vy);
   
-  return vz*vy/abs(vy)/sqrt(2);  //Normalize speed for range [-1:1] and direction of vy
+  //return vz*vy/abs(vy)/sqrt(2);  //Normalize speed for range [-1:1] and direction of vy
+  return (vy>0 ? vz:-vz)/sqrt(2);
 }
 
 float get_CO (float ratio){
