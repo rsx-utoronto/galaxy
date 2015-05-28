@@ -34,11 +34,11 @@ def decimal_gps(reference_x, reference_y):
 
 """Reference Point Definition"""
 #Reference1 = 11100.8749 3820.0719
-reference_x1 = decimal_gps(3820.0691,11100.8743)[0]
-reference_y1 = decimal_gps(3820.0691,11100.8743)[1]
+reference_x1 = decimal_gps(11100.8743,3820.0691)[0]
+reference_y1 = decimal_gps(11100.8743,3820.0691)[1]
 #Reference2 = 11100.8906 3820.0510
-reference_x2 = decimal_gps(3820.0545,11100.8884)[0]
-reference_y2 = decimal_gps(3820.0545,11100.8884)[1]
+reference_x2 = decimal_gps(11100.8884,3820.0545)[0]
+reference_y2 = decimal_gps(11100.8884,3820.0545)[1]
 #Reference3 =
 reference_y3 = (4346.9212 -regionx)/60+regionx
 reference_x3 = (7928.0415 -regiony)/60+regiony
@@ -120,7 +120,7 @@ def readgps(latitude,longitude):
     print "Finished"
 
 def processAdress(lon, lat):
-    (declon,declat) = decimal_gps(float(lon),float(lat))
+    (declon,declat) = decimal_gps(float(lat),float(lon))
     x1 = imagex1 + (declon-reference_x1)*senx
     y1 = imagey1 + (declat-reference_y1)*seny
     x2 = imagex2 + (declon-reference_x2)*senx
@@ -140,8 +140,8 @@ def processAdress(lon, lat):
 while(not done):
     #label = myfont.render(pos, 1, (0,0,0))
         
-    lon = readgps(latitude,longitude)[1]
-    lat = readgps(latitude,longitude)[0]
+    lon = readgps(latitude,longitude)[0]
+    lat = readgps(latitude,longitude)[1]
     print("============lat,long=============")
     print(lon,lat)
     print("=========================")    
@@ -179,7 +179,7 @@ while(not done):
 
     newArrow = rot_center(arrow, arrowangle)
     screen.blit(red_rect,(0,0))
-    screen.blit(newArrow,(int(y),int(x)))
+    screen.blit(newArrow,(int(x),int(y)))
     
     #pygame.draw.circle(screen, GREEN, [int(ast1x), int(ast1y)], 10)
     #pygame.draw.circle(screen, WHITE, [int(ast2x), int(ast2y)], 10)
