@@ -14,7 +14,7 @@ GREEN = ( 0, 255, 0)
 RED = (255, 0, 0)
 # Set the height and width of the screen
 sizex = 1000
-sizey = 600
+sizey = 700
 size = [sizex, sizey]
 screen = pygame.display.set_mode(size)
 
@@ -24,9 +24,8 @@ myfont = pygame.font.SysFont("monospace", 15)
 done = False
 clock = pygame.time.Clock()
 
-
-regionx = 3800
-regiony = 11100
+regionx = 11100
+regiony = 3800
 
 def decimal_gps(reference_x, reference_y):
     x = (reference_x - regionx)/60+regionx/100
@@ -111,8 +110,12 @@ def readgps(latitude,longitude):
     while True:
         line = ser.readline()
         if "GPGGA" in line:
-            latitude = line[18:27] #Yes it is positional info for lattitude
-            longitude = line[30:40] #do it again
+            latitude = line[18:27] #Yes it is positional info for lattitude 3000
+            longitude = line[30:40] #do it again 11100
+	    print("============latitude, longitude=============")
+	    print(latitude, longitude)
+	    print("=========================")
+
             return(latitude,longitude)
     print "Finished"
 
@@ -122,10 +125,12 @@ def processAdress(lon, lat):
     y1 = imagey1 + (declat-reference_y1)*seny
     x2 = imagex2 + (declon-reference_x2)*senx
     y2 = imagey2 + (declat-reference_y2)*seny
+    """
     print("============diff=============")
     print((declon-reference_x1)*senx, (declon-reference_x1))
     print((declat-reference_y1)*seny, (declat-reference_y1))
     print("=========================")
+    """
     x = ((x1+x2)/2)
     y = ((y1+y2)/2)
     return {'lon':x, "lat":y}
@@ -135,9 +140,11 @@ def processAdress(lon, lat):
 while(not done):
     #label = myfont.render(pos, 1, (0,0,0))
         
-    lon = readgps(latitude,longitude)[0]
-    lat = readgps(latitude,longitude)[1]
-  
+    lon = readgps(latitude,longitude)[1]
+    lat = readgps(latitude,longitude)[0]
+    print("============lat,long=============")
+    print(lon,lat)
+    print("=========================")    
     x = processAdress(lon,lat)['lon']
     y = processAdress(lon,lat)['lat']
 
@@ -166,7 +173,7 @@ while(not done):
     #screen.blit(red_rect,(0,0))
     #pygame.draw.circle(screen, RED, [int(x), int(y)], 10)
 
-    print("*************************")
+    print("*****...********************")
     print(int(x),int(y))
     print("*************************")
 
