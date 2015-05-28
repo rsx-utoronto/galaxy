@@ -33,7 +33,7 @@ clock = pygame.time.Clock()
 latitude = ''
 longitude = ''
 
-red_rect = pygame.image.load('utias.jpg')
+red_rect = pygame.image.load('Roadside.png')
 w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
@@ -99,7 +99,7 @@ while(not done):
         arrowangle-=v
         if arrowangle==-1:
             arrowangle=0
-    pos = str(x)+" "+str(600 - y)
+    pos = str(x)+" "+str(y)
     label = myfont.render(pos, 1, (0,0,0))
     
     #print(readgps(latitude, longitude)[0], 'N ', readgps(latitude, longitude)[1], 'W')

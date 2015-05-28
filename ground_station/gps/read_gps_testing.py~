@@ -33,7 +33,7 @@ clock = pygame.time.Clock()
 latitude = ''
 longitude = ''
 
-red_rect = pygame.image.load('utias.jpg')
+red_rect = pygame.image.load('Roadside.png')
 w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
@@ -116,7 +116,7 @@ while(not done):
         if event.type == pygame.QUIT: # If user clicked close
             done=True # Flag that we are done so we exit this loop
     
-    newArrow = rotatefunc(arrowangle, arrow)
+    #newArrow = rotatefunc(arrowangle, arrow)
     newArrow = rot_center(arrow, arrowangle)
     screen.blit(red_rect,(0,0))
     screen.blit(newArrow,(int(x),int(y)))

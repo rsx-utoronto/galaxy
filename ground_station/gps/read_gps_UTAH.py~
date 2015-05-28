@@ -114,6 +114,9 @@ def readgps(latitude,longitude):
             latitude = line[18:27] #Yes it is positional info for lattitude
             longitude = line[30:40] #do it again
             return(latitude,longitude)
+	    print("=========================")
+	    print(latitude, longitude)
+	    print("=========================")
     print "Finished"
 
 def processAdress(lon, lat):

@@ -34,6 +34,7 @@ def readgps(latitude,longitude):
     """Read the GPG LINE using the NMEA standard"""
     while True:
         line = ser.readline()
+	print(line)
         if "GPGGA" in line:
             latitude = line[18:27] #Yes it is positional info for lattitude
             longitude = line[30:40] #do it again
