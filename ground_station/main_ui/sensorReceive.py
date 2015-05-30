@@ -8,18 +8,19 @@ from math import pi
 
 ##########GROUND STATION SERVER RECEIVES SENSOR AND GPS VALUE FROM ##########
 
-HOST = '192.168.1.105 ' #Laptop IP address
-PORT = 51237
+HOST = '192.168.1.100' #Laptop IP address
+PORT = 51239
+
+# Initialize the game engine
+pygame.init()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(4)
 clients = [] #list of clients connected
 lock = threading.Lock()
+done = False
 
-
-# Initialize the game engine
-pygame.init()
 # Define the colors we will use in RGB format
 BLACK = ( 0, 0, 0)
 WHITE = (255, 255, 255)
@@ -32,6 +33,8 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Example code for the draw module")
 myfont = pygame.font.SysFont("monospace", 15)
+clock = pygame.time.Clock()
+
 
 """Reference Point Definition"""
 regionx = 11000
@@ -150,68 +153,70 @@ class chatServer(threading.Thread):
         print '%s:%s connected.' % self.address
         while True:
             sensor_data = self.socket.recv(1024)
-            print "Unprocessed data: " + sensor_data
+            print "raw sensor data: " + sensor_data
             sensor_data_split = sensor_data.split(",")
+
             if not sensor_data:
                 break
                     
             lon = sensor_data_split[1]
             lat = sensor_data_split[0]
+            #lon = raw_input("input longitude")
+            #lat = raw_input("input latitude")
+            #print(lat,lon)
             arrowangle = 0
     
             x = processAdress(lon,lat)['lon']
-	    y = processAdress(lon,lat)['lat']
+            y = processAdress(lon,lat)['lat']
 
-	    #ast1x = processAdress(ast_1_lon,ast_1_lat)['lon']
-	    #ast1y = processAdress(ast_1_lon,ast_1_lat)['lat']
+	        #ast1x = processAdress(ast_1_lon,ast_1_lat)['lon']
+	        #ast1y = processAdress(ast_1_lon,ast_1_lat)['lat']
 
-	    #ast2x = processAdress(ast_2_lon,ast_2_lat)['lon']
-	    #ast2y = processAdress(ast_2_lon,ast_2_lat)['lat']
+	        #ast2x = processAdress(ast_2_lon,ast_2_lat)['lon']
+	        #ast2y = processAdress(ast_2_lon,ast_2_lat)['lat']
 
-	    #ast3x = processAdress(ast_3_lon,ast_3_lat)['lon']
-	    #ast3y = processAdress(ast_3_lon,ast_3_lat)['lat']
+	        #ast3x = processAdress(ast_3_lon,ast_3_lat)['lon']
+	        #ast3y = processAdress(ast_3_lon,ast_3_lat)['lat']
 
-	    #ast4x = processAdress(ast_4_lon,ast_4_lat)['lon']
-	    #ast4y = processAdress(ast_4_lon,ast_4_lat)['lat']
+	        #ast4x = processAdress(ast_4_lon,ast_4_lat)['lon']
+	        #ast4y = processAdress(ast_4_lon,ast_4_lat)['lat']
 
-	    #ast5x = processAdress(ast_4_lon,ast_4_lat)['lon']
-	    #ast5y = processAdress(ast_4_lon,ast_4_lat)['lat']
-	    #ast6x = processAdress(ast_4_lon,ast_4_lat)['lon']
-	    #ast6y = processAdress(ast_4_lon,ast_4_lat)['lat']
-	    #ast7x = processAdress(ast_4_lon,ast_4_lat)['lon']
-	    #ast7y = processAdress(ast_4_lon,ast_4_lat)['lat']
+	        #ast5x = processAdress(ast_4_lon,ast_4_lat)['lon']
+	        #ast5y = processAdress(ast_4_lon,ast_4_lat)['lat']
+	        #ast6x = processAdress(ast_4_lon,ast_4_lat)['lon']
+	        #ast6y = processAdress(ast_4_lon,ast_4_lat)['lat']
+	        #ast7x = processAdress(ast_4_lon,ast_4_lat)['lon']
+	        #ast7y = processAdress(ast_4_lon,ast_4_lat)['lat']
 
-	    for event in pygame.event.get(): # User did something
-		if event.type == pygame.QUIT: # If user clicked close
-		    done=True # Flag that we are done so we exit this loop
-	    #screen.blit(red_rect,(0,0))
-	    #pygame.draw.circle(screen, RED, [int(x), int(y)], 10)
+	        #screen.blit(red_rect,(0,0))
+	        #pygame.draw.circle(screen, RED, [int(x), int(y)], 10)
+            clock.tick(10)
+            for event in pygame.event.get(): # User did something
+                if event.type == pygame.QUIT: # If user clicked close
+                    done=True # Flag that we are done so we exit this loop
+            #print("*****...********************")
+            #print(int(x),int(y))
+            #print("*************************")
 
-	    print("*****...********************")
-	    print(int(x),int(y))
-	    print("*************************")
+            newArrow = rot_center(arrow, arrowangle)
+            screen.blit(red_rect,(0,0))
+            screen.blit(newArrow,(int(x),int(y)))
 
-	    newArrow = rot_center(arrow, arrowangle)
-	    screen.blit(red_rect,(0,0))
-	    screen.blit(newArrow,(int(x),int(y)))
-	    
-	    #pygame.draw.circle(screen, GREEN, [int(ast1x), int(ast1y)], 10)
-	    #pygame.draw.circle(screen, WHITE, [int(ast2x), int(ast2y)], 10)
-	    #pygame.draw.circle(screen, BLACK, [int(ast3x), int(ast3y)], 10)
-	    #pygame.draw.circle(screen, BLUE, [int(ast4x), int(ast4y)], 10)
-	    #pygame.draw.circle(screen, BLUE, [int(ast5x), int(ast5y)], 10)
-	    #pygame.draw.circle(screen, BLUE, [int(ast6x), int(ast6y)], 10)
-	    #pygame.draw.circle(screen, BLUE, [int(ast7x), int(ast7y)], 10)
-	    pygame.draw.circle(screen, BLUE, [imagex1, imagey1], 10)
-	    pygame.draw.circle(screen, WHITE, [imagex2, imagey2], 10)
-	    pygame.draw.circle(screen, BLUE, [imagex3, imagey3], 10)
-	    pygame.draw.circle(screen, WHITE, [imagex4, imagey4], 10)
+            #pygame.draw.circle(screen, GREEN, [int(ast1x), int(ast1y)], 10)
+            #pygame.draw.circle(screen, WHITE, [int(ast2x), int(ast2y)], 10)
+            #pygame.draw.circle(screen, BLACK, [int(ast3x), int(ast3y)], 10)
+            #pygame.draw.circle(screen, BLUE, [int(ast4x), int(ast4y)], 10)
+            #pygame.draw.circle(screen, BLUE, [int(ast5x), int(ast5y)], 10)
+            #pygame.draw.circle(screen, BLUE, [int(ast6x), int(ast6y)], 10)
+            #pygame.draw.circle(screen, BLUE, [int(ast7x), int(ast7y)], 10)
+            pygame.draw.circle(screen, BLUE, [imagex1, imagey1], 10) #Draw reference points
+            pygame.draw.circle(screen, WHITE, [imagex2, imagey2], 10)
+            pygame.draw.circle(screen, BLUE, [imagex3, imagey3], 10)
+            pygame.draw.circle(screen, WHITE, [imagex4, imagey4], 10)
 
-	    #screen.blit(label,(x-30,y-10))
-	    pygame.display.flip()
-	pygame.quit()
-
-
+            #screen.blit(label,(x-30,y-10))
+            pygame.display.flip()
+	    pygame.quit()
 		
         self.socket.close()
         print '%s:%s disconnected.' % self.address
@@ -223,8 +228,3 @@ while True: # wait for socket to connect
     # send socket to chatserver and start monitoring
     chatServer(s.accept()).start()
     #print sensor_data
-
-
-
-
-

@@ -1,13 +1,16 @@
 #to run, 'sudo python' then 'import gamepad' (this file), then 'gamepad.test()'
 #to install pygame: apt-get install python-pygame
 
+##########RPi CLIENT##########
+
 import pygame, time, serial, csv, motor_func, math, socket, telnetlib
 
 pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
 
-tn = telnetlib.Telnet("192.168.1.102","51234") #RPi IP address
+tn = telnetlib.Telnet("192.168.1.107","51241") #RPi IP address
+#tn = telnetlib.Telnet("100.64.249.58", "51234") #RPi IP address on UOFT
 
 output_delay = 0.25
 
