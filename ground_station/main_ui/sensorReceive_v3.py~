@@ -27,7 +27,7 @@ YELLOW = (125,255,0)
 PURPLE = (0,255,255)
 
 # Set the height and width of the screen
-size = [1000, 400]
+size = [1500, 1500]
 screen = pygame.display.set_mode(size)
 
 clock = pygame.time.Clock()
@@ -36,10 +36,10 @@ pygame.display.set_caption("Example code for the draw module")
 myfont = pygame.font.SysFont("monospace", 15)
 
 """Reference Point Definition"""
-#regionx = 11000 #For hab area
-#regiony = 3800
-regionx = 11100 #For motel area
+regionx = 11000 #For hab area
 regiony = 3800
+#regionx = 11100 #For motel area
+#regiony = 3800
 
 
 def decimal_gps(reference_x, reference_y):
@@ -48,44 +48,28 @@ def decimal_gps(reference_x, reference_y):
     return (x,y) 
 
 """Reference Point Definition"""
-"""
 #Reference1 = 11100.8749 3820.0719
-reference_x1 = decimal_gps(11047.5157,3824.3837)[0]
-reference_y1 = decimal_gps(11047.5157,3824.3837)[1]
+reference_x1 = decimal_gps(11078.3533,3841.4673)[0]
+reference_y1 = decimal_gps(11078.3533,3841.4673)[1]
 #Reference2 = 11100.8906 3820.0510
-reference_x2 = decimal_gps(11047.3920,3824.3128)[0]
-reference_y2 = decimal_gps(11047.3920,3824.3128)[1]
-"""
+reference_x2 = decimal_gps(11078.5696,3841.6433)[0]
+reference_y2 = decimal_gps(11078.5696,3841.6433)[1]
 #Reference1 = 11100.8749 3820.0719
-reference_x3 = decimal_gps(11047.0378,3824.5186)[0]
-reference_y3 = decimal_gps(11047.0378,3824.5186)[1]
+reference_x3 = decimal_gps(11078.1611,3841.7795)[0]
+reference_y3 = decimal_gps(11078.1611,3841.7795)[1]
 #Reference2 = 11100.8906 3820.0510
-reference_x4 = decimal_gps(11047.5536,3824.1356)[0]
-reference_y4 = decimal_gps(11047.5536,3824.1356)[1]
+reference_x4 = decimal_gps(11078.1156,3841.4285)[0]
+reference_y4 = decimal_gps(11078.1156,3841.4285)[1]
 
-#Reference1 = 11100.8749 3820.0719
-reference_x1 = decimal_gps(11100.8743,3820.0691)[0]
-reference_y1 = decimal_gps(11100.8743,3820.0691)[1]
-#Reference2 = 11100.8906 3820.0510
-reference_x2 = decimal_gps(11100.8884,3820.0545)[0]
-reference_y2 = decimal_gps(11100.8884,3820.0545)[1]
 
-"""
-imagex1 = 552 #Hab
-imagey1 = 198
-imagex2 = 608 #Fork right
-imagey2 = 238
-"""
-imagex3 = 774 #Apex sharp bend north
-imagey3 = 114 
-imagex4 = 532 #Apex sharp bend south
-imagey4 = 346
-
-imagex1 = 530
-imagey1 = 160
-imagex2 = 440
-imagey2 = 310
-
+imagex1 = 535 #ball center: 3841.4673 11078.3533
+imagey1 = 340
+imagex2 = 385 #left teeth: 3841.6433 11078.5696 
+imagey2 = 180
+imagex3 = 670 #mouth: 3841.7795 11078.1611
+imagey3 = 60 
+imagex4 = 700 #end: 3841.4285 11078.1156
+imagey4 = 380
 
 senx = (imagex2-imagex1)/(reference_x2-reference_x1)
 seny = (imagey2-imagey1)/(reference_y2-reference_y1)
@@ -95,18 +79,18 @@ latitude = ''
 longitude = ''
 
 """Pictures of the Desert"""
-"""
-red_rect = pygame.image.load('MDRS_USED.png')
+
+red_rect = pygame.image.load('ASTCapture.png')
 """
 red_rect = pygame.image.load('Roadside.png')
-
+"""
 w,h = red_rect.get_size()
 x_scale = 0.8
 y_scale = 0.8
 red_rect = pygame.transform.scale(red_rect, (int(w*x_scale),int(h*y_scale)))
 
 arrow = pygame.image.load('triangle.png')
-arrow = pygame.transform.scale(arrow, (20,20))
+arrow = pygame.transform.scale(arrow, (15,15))
 
 
 """Change the Location of the astronaut"""
@@ -171,19 +155,10 @@ def processAdress(lon, lat):
     y3 = imagey3 + (declat-reference_y3)*seny
     x4 = imagex4 + (declon-reference_x4)*senx
     y4 = imagey4 + (declat-reference_y4)*seny
-    """
-    print("============diff=============")
-    print((declon-reference_x1)*senx, (declon-reference_x1))
-    print((declat-reference_y1)*seny, (declat-reference_y1))
-    print("=========================")
-    """
     
     x = ((x1+x2+x3+x4)/4)
     y = ((y1+y2+y3+y4)/4)
-    """
-    x = ((x1+x2)/2)
-    y = ((y1+y2)/2)
-    """
+
     #print("============diff=============")
     #print(x, y)
     #print("=========================")
