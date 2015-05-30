@@ -13,6 +13,10 @@ WHITE = (255, 255, 255)
 BLUE = ( 0, 0, 255)
 GREEN = ( 0, 255, 0)
 RED = (255, 0, 0)
+ORANGE = (230,255,0)
+YELLOW = (125,255,0)
+PURPLE = (255,0,255)
+
 # Set the height and width of the screen
 size = [1500, 1500]
 screen = pygame.display.set_mode(size)
@@ -72,8 +76,8 @@ arrow = pygame.transform.scale(arrow, (20,20))
 
 
 """Change the Location of the astronaut"""
-ast_1_lon = 11078.3154
-ast_1_lat = 3841.5861
+ast_1_lon = 11078.3150
+ast_1_lat = 3841.5865
 
 ast_2_lon = 7927.9680 #white, increase lon --> decrease x
 ast_2_lat = 4346.9290
@@ -83,6 +87,22 @@ ast_3_lat = 4346.9190
 
 ast_4_lon = 7927.9550
 ast_4_lat = 4346.9160
+
+ast_5_lon = 7927.9550
+ast_5_lat = 4346.9160
+
+ast_6_lon = 7927.9550
+ast_6_lat = 4346.9160
+
+ast_7_lon = 7927.9550
+ast_7_lat = 4346.9160
+
+ast_8_lon = 11078.3145
+ast_8_lat = 3841.5850
+
+
+ast_9_lon = 11078.3145
+ast_9_lat = 3841.5850
 
 
 def rot_center(image, angle):
@@ -150,24 +170,29 @@ while(True):
     x = processAdress(lon,lat)['lon']
     y = processAdress(lon,lat)['lat']
 
-    #ast1x = processAdress(ast_1_lon,ast_1_lat)['lon']
-    #ast1y = processAdress(ast_1_lon,ast_1_lat)['lat']
+    ast_1_x = processAdress(ast_1_lon,ast_1_lat)['lon']
+    ast_1_y = processAdress(ast_1_lon,ast_1_lat)['lat']
 
-    #ast2x = processAdress(ast_2_lon,ast_2_lat)['lon']
-    #ast2y = processAdress(ast_2_lon,ast_2_lat)['lat']
+    ast_2_x = processAdress(ast_2_lon,ast_2_lat)['lon']
+    ast_2_y = processAdress(ast_2_lon,ast_2_lat)['lat']
 
-    #ast3x = processAdress(ast_3_lon,ast_3_lat)['lon']
-    #ast3y = processAdress(ast_3_lon,ast_3_lat)['lat']
+    ast_3_x = processAdress(ast_3_lon,ast_3_lat)['lon']
+    ast_3_y = processAdress(ast_3_lon,ast_3_lat)['lat']
 
-    #ast4x = processAdress(ast_4_lon,ast_4_lat)['lon']
-    #ast4y = processAdress(ast_4_lon,ast_4_lat)['lat']
+    ast_4_x = processAdress(ast_4_lon,ast_4_lat)['lon']
+    ast_4_y = processAdress(ast_4_lon,ast_4_lat)['lat']
 
-    #ast5x = processAdress(ast_4_lon,ast_4_lat)['lon']
-    #ast5y = processAdress(ast_4_lon,ast_4_lat)['lat']
-    #ast6x = processAdress(ast_4_lon,ast_4_lat)['lon']
-    #ast6y = processAdress(ast_4_lon,ast_4_lat)['lat']
-    #ast7x = processAdress(ast_4_lon,ast_4_lat)['lon']
-    #ast7y = processAdress(ast_4_lon,ast_4_lat)['lat']
+    ast_5_x = processAdress(ast_5_lon,ast_5_lat)['lon']
+    ast_5_y = processAdress(ast_5_lon,ast_5_lat)['lat']
+
+    ast_6_x = processAdress(ast_6_lon,ast_6_lat)['lon']
+    ast_6_y = processAdress(ast_6_lon,ast_6_lat)['lat']
+
+    ast_7_x = processAdress(ast_7_lon,ast_7_lat)['lon']
+    ast_7_y = processAdress(ast_7_lon,ast_7_lat)['lat']
+
+    ast_8_x = processAdress(ast_8_lon,ast_8_lat)['lon']
+    ast_8_y = processAdress(ast_8_lon,ast_8_lat)['lat']
 
     for event in pygame.event.get(): # User did something
 	if event.type == pygame.QUIT: # If user clicked close
@@ -182,17 +207,18 @@ while(True):
     newArrow = rot_center(arrow, arrowangle)
     screen.blit(red_rect,(0,0))
     
-    #pygame.draw.circle(screen, GREEN, [int(ast1x), int(ast1y)], 10)
-    #pygame.draw.circle(screen, WHITE, [int(ast2x), int(ast2y)], 10)
-    #pygame.draw.circle(screen, BLACK, [int(ast3x), int(ast3y)], 10)
-    #pygame.draw.circle(screen, BLUE, [int(ast4x), int(ast4y)], 10)
-    #pygame.draw.circle(screen, BLUE, [int(ast5x), int(ast5y)], 10)
-    #pygame.draw.circle(screen, BLUE, [int(ast6x), int(ast6y)], 10)
-    #pygame.draw.circle(screen, BLUE, [int(ast7x), int(ast7y)], 10)
-    pygame.draw.circle(screen, BLUE, [imagex1, imagey1], 10)
-    pygame.draw.circle(screen, WHITE, [imagex2, imagey2], 10)
-    pygame.draw.circle(screen, BLUE, [imagex3, imagey3], 10)
-    pygame.draw.circle(screen, WHITE, [imagex4, imagey4], 10)
+    pygame.draw.circle(screen, WHITE, [int(ast_1_x), int(ast_1_y)], 10)
+    pygame.draw.circle(screen, BLACK, [int(ast_2_x), int(ast_2_y)], 10)
+    pygame.draw.circle(screen, RED, [int(ast_3_x), int(ast_3_y)], 10)
+    pygame.draw.circle(screen, ORANGE, [int(ast_4_x), int(ast_4_y)], 10)
+    pygame.draw.circle(screen, YELLOW, [int(ast_5_x), int(ast_5_y)], 10)
+    pygame.draw.circle(screen, GREEN, [int(ast_6_x), int(ast_6_y)], 10)
+    pygame.draw.circle(screen, BLUE, [int(ast_7_x), int(ast_7_y)], 10)
+    pygame.draw.circle(screen, PURPLE, [int(ast_8_x), int(ast_8_y)], 10)
+    #pygame.draw.circle(screen, BLUE, [imagex1, imagey1], 10)
+    #pygame.draw.circle(screen, WHITE, [imagex2, imagey2], 10)
+    #pygame.draw.circle(screen, BLUE, [imagex3, imagey3], 10)
+    #pygame.draw.circle(screen, WHITE, [imagex4, imagey4], 10)
     screen.blit(newArrow,(int(x),int(y)))
 
     #screen.blit(label,(x-30,y-10))
