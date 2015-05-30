@@ -94,32 +94,32 @@ arrow = pygame.transform.scale(arrow, (15,15))
 
 
 """Change the Location of the astronaut"""
-ast_1_lon = 11078.3150
+ast_1_lon = 11078.3150 #white
 ast_1_lat = 3841.5865
 
-ast_2_lon = 110 #white, increase lon --> decrease x
+ast_2_lon = 110 #black, increase lon --> decrease x
 ast_2_lat = 38
 
-ast_3_lon = 110 #black, decrease lat --> decrease y
+ast_3_lon = 110 #red, decrease lat --> decrease y
 ast_3_lat = 38
 
-ast_4_lon = 110 #red
+ast_4_lon = 110 #orange
 ast_4_lat = 38
 
-ast_5_lon = 110 #orange
+ast_5_lon = 110 #yellow
 ast_5_lat = 38
 
-ast_6_lon = 110 #yellow
+ast_6_lon = 110 #green
 ast_6_lat = 38
 
-ast_7_lon = 110 #green
+ast_7_lon = 110 #blue
 ast_7_lat = 38
 
-ast_8_lon = 110 #blue
+ast_8_lon = 110 #purple
 ast_8_lat = 38
 
 
-ast_9_lon = 110 #purple
+ast_9_lon = 110 
 ast_9_lat = 38
 
 
@@ -253,6 +253,37 @@ class chatServer(threading.Thread):
 
 
             screen.blit(newArrow,(int(x),int(y)))
+            pos1 = "A1"
+            label1 = myfont.render(pos1, 1, (0,0,0))
+            screen.blit(label1,(ast_1_x-8,ast_1_y-8))
+
+            pos2 = "A2"
+            label2 = myfont.render(pos2, 1, (0,0,0))
+            screen.blit(label2,(ast_2_x-8,ast_2_y-8))
+
+            pos3 = "A3"
+            label3 = myfont.render(pos3, 1, (0,0,0))
+            screen.blit(label3,(ast_3_x-8,ast_3_y-8))
+
+            pos4 = "A4"
+            label4 = myfont.render(pos4, 1, (0,0,0))
+            screen.blit(label4,(ast_4_x-8,ast_4_y-8))
+
+            pos5 = "A5"
+            label5 = myfont.render(pos5, 1, (0,0,0))
+            screen.blit(label5,(ast_5_x-8,ast_5_y-8))
+
+            pos6 = "A6"
+            label6 = myfont.render(pos6, 1, (0,0,0))
+            screen.blit(label6,(ast_6_x-8,ast_6_y-8))
+
+            pos7 = "A7"
+            label7 = myfont.render(pos7, 1, (0,0,0))
+            screen.blit(label7,(ast_7_x-8,ast_7_y-8))
+
+            pos8 = "A8"
+            label8 = myfont.render(pos8, 1, (0,0,0))
+            screen.blit(label8,(ast_8_x-8,ast_8_y-8))
 
             #screen.blit(label,(x-30,y-10))
 
