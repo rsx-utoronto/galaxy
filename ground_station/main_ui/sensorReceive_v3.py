@@ -85,8 +85,8 @@ red_rect = pygame.image.load('ASTCapture.png')
 red_rect = pygame.image.load('Roadside.png')
 """
 w,h = red_rect.get_size()
-x_scale = 0.8
-y_scale = 0.8
+x_scale = 1.2
+y_scale = 1.2
 red_rect = pygame.transform.scale(red_rect, (int(w*x_scale),int(h*y_scale)))
 
 arrow = pygame.image.load('triangle.png')
@@ -94,33 +94,33 @@ arrow = pygame.transform.scale(arrow, (15,15))
 
 
 """Change the Location of the astronaut"""
-ast_1_lon = 07927.9620
-ast_1_lat = 4346.9230
+ast_1_lon = 11078.3150
+ast_1_lat = 3841.5865
 
-ast_2_lon = 7927.9680 #white, increase lon --> decrease x
-ast_2_lat = 4346.9290
+ast_2_lon = 110 #white, increase lon --> decrease x
+ast_2_lat = 38
 
-ast_3_lon = 7927.9580 #black, decrease lat --> decrease y
-ast_3_lat = 4346.9190
+ast_3_lon = 110 #black, decrease lat --> decrease y
+ast_3_lat = 38
 
-ast_4_lon = 7927.9550
-ast_4_lat = 4346.9160
+ast_4_lon = 110 #red
+ast_4_lat = 38
 
-ast_5_lon = 7927.9550
-ast_5_lat = 4346.9160
+ast_5_lon = 110 #orange
+ast_5_lat = 38
 
-ast_6_lon = 7927.9550
-ast_6_lat = 4346.9160
+ast_6_lon = 110 #yellow
+ast_6_lat = 38
 
-ast_7_lon = 7927.9550
-ast_7_lat = 4346.9160
+ast_7_lon = 110 #green
+ast_7_lat = 38
 
-ast_8_lon = 7927.9550
-ast_8_lat = 4346.9160
+ast_8_lon = 110 #blue
+ast_8_lat = 38
 
 
-ast_9_lon = 7927.9550
-ast_9_lat = 4346.9160
+ast_9_lon = 110 #purple
+ast_9_lat = 38
 
 
 def rot_center(image, angle):
@@ -138,9 +138,9 @@ def readgps(latitude,longitude):
         if "GPGGA" in line:
             latitude = line[18:27] #Yes it is positional info for lattitude 3000
             longitude = line[30:40] #do it again 11100
-	    print("============latitude, longitude=============")
-	    #print(latitude, longitude)
-	    print("=========================")
+	    #print("============latitude, longitude=============")
+	    print(latitude, longitude)
+	    #print("=========================")
 
             return(latitude,longitude)
     print "Finished"
@@ -242,14 +242,14 @@ class chatServer(threading.Thread):
             #pygame.draw.circle(screen, WHITE, [imagex2, imagey2], 10)
             #pygame.draw.circle(screen, BLUE, [imagex3, imagey3], 10)
             #pygame.draw.circle(screen, WHITE, [imagex4, imagey4], 10)
-            pygame.draw.circle(screen, WHITE, [int(ast_1_x), int(ast_1_y)], 10)
-            pygame.draw.circle(screen, BLACK, [int(ast_2_x), int(ast_2_y)], 10)
-            pygame.draw.circle(screen, RED, [int(ast_3_x), int(ast_3_y)], 10)
-            pygame.draw.circle(screen, ORANGE, [int(ast_4_x), int(ast_4_y)], 10)
-            pygame.draw.circle(screen, YELLOW, [int(ast_5_x), int(ast_5_y)], 10)
-            pygame.draw.circle(screen, GREEN, [int(ast_6_x), int(ast_6_y)], 10)
-            pygame.draw.circle(screen, BLUE, [int(ast_7_x), int(ast_7_y)], 10)
-            pygame.draw.circle(screen, PURPLE, [int(ast_8_x), int(ast_8_y)], 10)
+            pygame.draw.circle(screen, WHITE, [int(ast_1_x), int(ast_1_y)], 7)
+            pygame.draw.circle(screen, BLACK, [int(ast_2_x), int(ast_2_y)], 7)
+            pygame.draw.circle(screen, RED, [int(ast_3_x), int(ast_3_y)], 7)
+            pygame.draw.circle(screen, ORANGE, [int(ast_4_x), int(ast_4_y)], 7)
+            pygame.draw.circle(screen, YELLOW, [int(ast_5_x), int(ast_5_y)], 7)
+            pygame.draw.circle(screen, GREEN, [int(ast_6_x), int(ast_6_y)], 7)
+            pygame.draw.circle(screen, BLUE, [int(ast_7_x), int(ast_7_y)], 7)
+            pygame.draw.circle(screen, PURPLE, [int(ast_8_x), int(ast_8_y)], 7)
 
 
             screen.blit(newArrow,(int(x),int(y)))
