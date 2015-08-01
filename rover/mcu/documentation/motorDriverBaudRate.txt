@@ -1,0 +1,2 @@
+For pure serial connection, both 2 and 4 are down
+For PWB connected with Arduino, 1, 4 and 6 are down
